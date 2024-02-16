@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block token %}Edit "{{ camera['token'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="token">token</label>
+    <input name="token" id="token"
+      value="{{ request.form['token'] or camera['token'] }}" required>
+    <label for="fingerprint">fingerprint</label>
+    <textarea name="fingerprint" id="fingerprint">{{ request.form['fingerprint'] or camera['fingerprint'] }}</textarea>
+    <input type="submit" value="Save">
+  </form>
+  <hr>
+  <form action="{{ url_for('cameras.delete', id=camera['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+  </form>
+{% endblock %}

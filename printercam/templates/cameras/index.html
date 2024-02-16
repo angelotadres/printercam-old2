@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block token %}Cameras{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('cameras.create') }}">New</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% for camera in cameras %}
+    <article class="camera">
+      <header>
+        <div>
+          <h1>{{ camera['token'] }}</h1>
+          <div class="about">by {{ camera['username'] }} on {{ camera['created'].strftime('%Y-%m-%d') }}</div>
+        </div>
+        {% if g.user['id'] == camera['author_id'] %}
+          <a class="action" href="{{ url_for('cameras.update', id=camera['id']) }}">Edit</a>
+        {% endif %}
+      </header>
+      <p class="fingerprint">{{ camera['fingerprint'] }}</p>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
