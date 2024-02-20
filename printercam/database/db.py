@@ -1,5 +1,5 @@
 import sqlite3
-
+import os
 import click
 from flask import current_app, g
 
@@ -12,7 +12,7 @@ def init_app(app):
 def init_db():
     db = get_db()
 
-    with current_app.open_resource('schema.sql') as f:
+    with current_app.open_resource(os.path.join('database', 'schema.sql')) as f:
         db.executescript(f.read().decode('utf8'))
 
 

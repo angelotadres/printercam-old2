@@ -1,9 +1,9 @@
 import os
 
 from flask import Flask
-from . import db
-from . import auth
-from . import cameras
+from .database import db
+from .modules.auth import routes as auth_routes
+from .modules.cameras import routes as camera_routes
 
 
 def create_app(test_config=None):
@@ -33,8 +33,8 @@ def create_app(test_config=None):
         return 'Hello, World!'
 
     db.init_app(app)
-    app.register_blueprint(auth.bp)
-    app.register_blueprint(cameras.bp)
+    app.register_blueprint(auth_routes.bp)
+    app.register_blueprint(camera_routes.bp)
     app.add_url_rule('/', endpoint='index')
     
     return app

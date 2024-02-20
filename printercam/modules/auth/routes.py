@@ -5,9 +5,9 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from printercam.db import get_db
+from printercam.database.db import get_db
 
-bp = Blueprint('auth', __name__, url_prefix='/auth')
+bp = Blueprint('auth', __name__, url_prefix='/auth', template_folder='templates')
 
 
 @bp.route('/register', methods=('GET', 'POST'))
@@ -37,7 +37,7 @@ def register():
 
         flash(error)
 
-    return render_template('auth/register.html')
+    return render_template('register.html')
 
 
 @bp.route('/login', methods=('GET', 'POST'))
@@ -63,7 +63,7 @@ def login():
 
         flash(error)
 
-    return render_template('auth/login.html')
+    return render_template('login.html')
 
 
 @bp.route('/logout')

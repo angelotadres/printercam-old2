@@ -3,10 +3,10 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from printercam.auth import login_required
-from printercam.db import get_db
+from printercam.modules.auth.routes import login_required
+from printercam.database.db import get_db
 
-bp = Blueprint('cameras', __name__)
+bp = Blueprint('cameras', __name__, template_folder='templates')
 
 
 @bp.route('/')
@@ -17,7 +17,7 @@ def index():
         ' FROM camera c JOIN user u ON c.author_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
-    return render_template('cameras/index.html', cameras=cameras)
+    return render_template('index.html', cameras=cameras)
 
 
 @bp.route('/create', methods=('GET', 'POST'))
@@ -43,7 +43,7 @@ def create():
             db.commit()
             return redirect(url_for('cameras.index'))
 
-    return render_template('cameras/create.html')
+    return render_template('create.html')
 
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
@@ -71,7 +71,7 @@ def update(id):
             db.commit()
             return redirect(url_for('cameras.index'))
 
-    return render_template('cameras/update.html', camera=camera)
+    return render_template('update.html', camera=camera)
 
 
 @bp.route('/<int:id>/delete', methods=('POST',))
