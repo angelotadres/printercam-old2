@@ -41,6 +41,7 @@ def create():
                 (token, fingerprint, g.user['id'])
             )
             db.commit()
+            flash("Camera added successfully.")
             return redirect(url_for('cameras.index'))
 
     return render_template('create.html')
@@ -69,6 +70,7 @@ def update(id):
                 (token, fingerprint, id)
             )
             db.commit()
+            flash("Camera updated successfully.")
             return redirect(url_for('cameras.index'))
 
     return render_template('update.html', camera=camera)
@@ -81,6 +83,7 @@ def delete(id):
     db = get_db()
     db.execute('DELETE FROM camera WHERE id = ?', (id,))
     db.commit()
+    flash("Camera deleted successfully.")
     return redirect(url_for('cameras.index'))
 
 

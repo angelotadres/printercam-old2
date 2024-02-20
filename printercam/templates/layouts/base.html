@@ -1,35 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}{% endblock %} - Printer Cam</title>
-  {% assets "asset_css" %}
-    <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"/>
-  {% endassets %}
-</head>
-<body>
-  <nav>
-    <h1>Printer Cam</h1>
-    <ul>
-      {% if g.user %}
-        <li><span>{{ g.user['username'] }}</span></li>
-        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
-      {% else %}
-        <li><a href="{{ url_for('auth.register') }}">Register</a></li>
-        <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-      {% endif %}
-    </ul>
-  </nav>
-  <section class="content">
+<html lang="en" data-bs-theme="auto">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% assets "asset_css" %}
+      <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"/>
+    {% endassets %}
+    <script src="{{ url_for('static', filename='bootstrap/js/color-modes.js') }}"></script>
+    <title>{% block title %}Printer Cam{% endblock %}</title>
+  </head>
+  <body>
     <header>
-      {% block header %}{% endblock %}
+      {% include 'components/top_bar.html' %}
     </header>
-    {% for message in get_flashed_messages() %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
-    {% block content %}{% endblock %}
-  </section>
-  <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-</body>
+    <main class="container">
+      {% for message in get_flashed_messages() %}
+        <div class="alert alert-primary" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+      {% block content %}{% endblock %}
+    </main>
+    {% include 'components/theme_selector.html' %}
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  </body>
 </html>

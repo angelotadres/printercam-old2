@@ -1,20 +1,45 @@
 {% extends 'layouts/base.html' %}
 
-{% block header %}
-  <h1>{% block token %}Edit "{{ camera['token'] }}"{% endblock %}</h1>
-{% endblock %}
-
 {% block content %}
-  <form method="post">
-    <label for="token">token</label>
-    <input name="token" id="token"
-      value="{{ request.form['token'] or camera['token'] }}" required>
-    <label for="fingerprint">fingerprint</label>
-    <textarea name="fingerprint" id="fingerprint">{{ request.form['fingerprint'] or camera['fingerprint'] }}</textarea>
-    <input type="submit" value="Save">
-  </form>
-  <hr>
-  <form action="{{ url_for('cameras.delete', id=camera['id']) }}" method="post">
-    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
-  </form>
+  <div class="container mt-4">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">{% block token %}Edit "{{ camera['token'] }}"{% endblock %}</h1>
+        
+        <form method="post" class="mt-4" id="editForm">
+          <div class="mb-3">
+            <label for="token" class="form-label">Token</label>
+            <input type="text" class="form-control" name="token" id="token" value="{{ request.form['token'] or camera['token'] }}" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="fingerprint" class="form-label">Fingerprint</label>
+            <textarea class="form-control" name="fingerprint" id="fingerprint">{{ request.form['fingerprint'] or camera['fingerprint'] }}</textarea>
+          </div>
+        </form>
+
+        <div class="row">
+          <div class="col">
+            <button type="button" class="btn btn-primary" onclick="submitForm()">Save</button>
+          </div>
+          <div class="col text-end">
+            <button type="button" class="btn btn-danger" onclick="confirmAndDelete()">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function submitForm() {
+      document.getElementById('editForm').submit();
+    }
+
+    function confirmAndDelete() {
+      if (confirm('Are you sure?')) {
+        document.getElementById('editForm').action = "{{ url_for('cameras.delete', id=camera['id']) }}";
+        document.getElementById('editForm').submit();
+      }
+    }
+  </script>
 {% endblock %}

@@ -1,28 +1,32 @@
 {% extends 'layouts/base.html' %}
 
-{% block header %}
-  <h1>{% block token %}Cameras{% endblock %}</h1>
-  {% if g.user %}
-    <a class="action" href="{{ url_for('cameras.create') }}">New</a>
-  {% endif %}
-{% endblock %}
-
 {% block content %}
-  {% for camera in cameras %}
-    <article class="camera">
-      <header>
-        <div>
-          <h1>{{ camera['token'] }}</h1>
-          <div class="about">by {{ camera['username'] }} on {{ camera['created'].strftime('%Y-%m-%d') }}</div>
+  <div class="container mt-3">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1>{% block token %}Cameras{% endblock %}</h1>
+      {% if g.user %}
+        <a class="btn btn-primary" href="{{ url_for('cameras.create') }}">New</a>
+      {% endif %}
+    </div>
+  </div>
+  <div class="container mt-4">
+    {% for camera in cameras %}
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <h1 class="h4">{{ camera['token'] }}</h1>
+            <div class="text-muted">created by <b>{{ camera['username'] }}</b> on <b>{{ camera['created'].strftime('%Y-%m-%d') }}</b></div>
+          </div>
         </div>
-        {% if g.user['id'] == camera['author_id'] %}
-          <a class="action" href="{{ url_for('cameras.update', id=camera['id']) }}">Edit</a>
+        <div class="card-body">
+          <p class="card-text">{{ camera['fingerprint'] }}</p>
+        </div>
+        {% if g.user and g.user['id'] == camera['author_id'] %}
+          <div class="card-footer">
+            <a class="btn btn-outline-primary btn-sm" href="{{ url_for('cameras.update', id=camera['id']) }}">Edit</a>
+          </div>
         {% endif %}
-      </header>
-      <p class="fingerprint">{{ camera['fingerprint'] }}</p>
-    </article>
-    {% if not loop.last %}
-      <hr>
-    {% endif %}
-  {% endfor %}
+        </div>
+    {% endfor %}
+  </div>
 {% endblock %}

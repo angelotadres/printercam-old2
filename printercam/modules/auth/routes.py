@@ -33,6 +33,7 @@ def register():
             except db.IntegrityError:
                 error = f"User {username} is already registered."
             else:
+                flash(f"User {username} was created successfully.")
                 return redirect(url_for("auth.login"))
 
         flash(error)
@@ -59,7 +60,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            return redirect(url_for('/cameras'))
 
         flash(error)
 
@@ -69,7 +70,7 @@ def login():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('/cameras'))
 
 
 @bp.before_app_request
