@@ -1,6 +1,8 @@
 import os
 
 from flask import Flask
+from flask_assets import Environment, Bundle
+
 from .database import db
 from .modules.auth import routes as auth_routes
 from .modules.cameras import routes as camera_routes
@@ -9,6 +11,18 @@ from .modules.cameras import routes as camera_routes
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+
+    assets = Environment(app)
+
+    css = Bundle(
+        'scss/main.scss',
+        filters=['libsass'],
+        output='dist/styles.css',
+        depends='scss/*.scss'
+        )
+    assets.register("asset_css", css)
+    css.build()
+
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'printercam.sqlite'),
