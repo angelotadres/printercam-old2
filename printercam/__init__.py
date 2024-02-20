@@ -15,9 +15,9 @@ def create_app(test_config=None):
     assets = Environment(app)
 
     css = Bundle(
-        'scss/main.scss',
+        'scss/globals.scss',
         filters=['libsass'],
-        output='dist/styles.css',
+        output='dist/globals.css',
         depends='scss/*.scss'
         )
     assets.register("asset_css", css)
