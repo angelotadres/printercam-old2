@@ -6,6 +6,8 @@
     {% assets "asset_css" %}
       <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"/>
     {% endassets %}
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap/js/color-modes.js') }}"></script>
     <title>{% block title %}Printer Cam{% endblock %}</title>
   </head>
@@ -21,6 +23,5 @@
       {% endfor %}
       {% block content %}{% endblock %}
     </main>
-    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   </body>
 </html>

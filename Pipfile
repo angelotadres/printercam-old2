@@ -8,6 +8,9 @@ flake8 = "*"
 flask = "*"
 flask-assets = "*"
 libsass = "*"
+psutil = "*"
+opencv-python-headless = "*"
+flask-socketio = "*"
 
 [dev-packages]
 

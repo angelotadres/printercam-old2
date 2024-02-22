@@ -1,11 +1,27 @@
 import os
+import time
 
 from flask import Flask
 from flask_assets import Environment, Bundle
+from flask_socketio import SocketIO
 
 from .database import db
 from .modules.auth import routes as auth_routes
 from .modules.cameras import routes as camera_routes
+from .services import system_info
+
+
+def emit_system_info(socketio):
+    while True:
+        disk = system_info.get_main_disk_space()
+        data = {
+            "hostname": system_info.get_host_name(),
+            "ip": system_info.get_local_ip(),
+            "disk_total_space": disk['result'],
+            "disk_percentage_used": disk['percentage_used']
+        }
+        socketio.emit('system_info', data)
+        socketio.sleep(2)
 
 
 def create_app(test_config=None):
@@ -45,5 +61,8 @@ def create_app(test_config=None):
     app.register_blueprint(auth_routes.bp)
     app.register_blueprint(camera_routes.bp)
     app.add_url_rule('/', endpoint='/cameras')
-    
-    return app
+    socketio = SocketIO(app)
+
+    socketio.start_background_task(emit_system_info, socketio)
+
+    return app, socketio
