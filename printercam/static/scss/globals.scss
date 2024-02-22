@@ -2,33 +2,22 @@
 @import "../bootstrap/icons/font/bootstrap-icons.css";
 
 main {
-    scroll-padding-top: 5rem;
-    padding-top: 5rem;
+    scroll-padding-top: 8rem;
+    padding-top: 8rem;
+}
+
+.navbar-toggler,
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .bi {
     vertical-align: -.125em;
     fill: currentColor;
-}
-
-.btn-bd-primary {
-    --bd-violet-bg: #712cf9;
-    --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-    --bs-btn-font-weight: 600;
-    --bs-btn-color: var(--bs-white);
-    --bs-btn-bg: var(--bd-violet-bg);
-    --bs-btn-border-color: var(--bd-violet-bg);
-    --bs-btn-hover-color: var(--bs-white);
-    --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-    --bs-btn-active-color: var(--bs-btn-hover-color);
-    --bs-btn-active-bg: #5a23c8;
-    --bs-btn-active-border-color: #5a23c8;
-}
-
-.bd-mode-toggle {
-    z-index: 1500;
-}
-
-.bd-mode-toggle .dropdown-menu .active .bi {
-    display: block !important;
 }
